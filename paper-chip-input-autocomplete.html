@@ -30,7 +30,7 @@
                 }
                 ;
 
-                @apply --paper-dropdown-menu;
+                @apply --paper-dropdown-menu;/*
 
                 --paper-input-container-underline: {
                     display: none;
@@ -43,7 +43,7 @@
                 --paper-input-container-underline-disabled: {
                     display: none;
                 }
-                ;
+                ;*/
                 width: 100%;
             }
 
@@ -109,18 +109,17 @@
             }
         </style>
 
-
         <paper-input-container always-float-label id="tags">
             <label slot="label">[[label]]</label>
             <div container slot="prefix">
                 <dom-repeat items="[[values]]" as="item">
                     <template>
                         <paper-chip index="[[index]]" value="[[_computeValue(item)]]" on-remove-chip="_removeChip" removable single-line>
-                            <span slot="label" class="label">[[_computeLabel(item)]]</span>
+                            <span slot="label" class="label" title="[[_computeLabel(item)]]">[[_computeLabel(item)]]</span>
                         </paper-chip>
                     </template>
                 </dom-repeat>
-                <input id="tagInput" placeholder="[[placeholder]]" type="text" placeholder="[[placeholder]]">
+                <input id="tagInput" placeholder="[[placeholder]]" type="text">
             </div>
         </paper-input-container>
 
@@ -196,8 +195,14 @@
                         this._hideTips()
                     } else if (tagInput.value === "" && event.code === "Backspace") {
                         this._popChip()
+                    } else if (tagInput.value !== "" && event.code === "Enter") {
+                        this.dispatchEvent(new CustomEvent("paper-chip-input-autocomplete-add", { detail: tagInput.value }));
                     }
                 })
+            }
+
+            clear() {
+                this.$.tagInput.value = '';
             }
 
             _filter() {

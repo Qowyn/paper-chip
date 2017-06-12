@@ -224,7 +224,7 @@ MIT © fabbricadigitale
 
              :host(*:not([opened])) ::slotted([slot="label"]) {
                 @apply --paper-font-common-nowrap;
-                max-width: 80px;
+                max-width: var(--paper-chip-label-max-width, 80px);
             }
 
              :host(*:not([removable])) ::slotted([slot="label"]) {
