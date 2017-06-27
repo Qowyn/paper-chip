@@ -1,5 +1,4 @@
-[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/fabbricadigitale/paper-chip)
- [![License](https://img.shields.io/badge/license-MIT-yellowgreen.svg?style=flat-square)](http://opensource.org/licenses/MIT)
+[![Published on webcomponents.org](https://img.shields.io/badge/webcomponents.org-published-blue.svg?style=flat-square)](https://www.webcomponents.org/element/fabbricadigitale/paper-chip) [![License](https://img.shields.io/badge/license-MIT-yellowgreen.svg?style=flat-square)](http://opensource.org/licenses/MIT) [![Build Status](https://img.shields.io/travis/fabbricadigitale/paper-chip.svg?style=flat-square)]()
 
 # \<paper-chip\>
 
@@ -9,11 +8,12 @@ Material design: [Chips](https://material.io/guidelines/components/chips.html#).
 
 This elements family may provide a icon or a photo, some line of text or a contact information with Material Design styling.
 
+[![Browser Support Matrix](https://saucelabs.com/browser-matrix/paper-chip.svg)](https://saucelabs.com/u/paper-chip)
+
 ### Elements
 
 * `<paper-chip>`
 * `<paper-chip-input>`
-* `<paper-chip-input-autocomplete>`
 
 ## Usage
 
@@ -80,7 +80,7 @@ It may be **removable** or not.
 
 Do you want to **animate** the chip when it is opening?
 
-You can do it via attribute.    
+You can do it via attribute.
 
 <!--
 ```
@@ -118,33 +118,91 @@ Use `<paper-chip-input>` when you desire an input field where the strings digite
 <paper-chip-input></paper-chip-input>
 ```
 
-Do you need **autocomplete** ?
+Do you want to change the **keys** that automatically submit chips?
 
-Use `<paper-chip-input-autocomplete>` when you have a predefined and finite set of input values.
+No worries, we support it!
 
+Configure them with the `enter-keys` property adding the keys.
+
+We support the [Polymer.IronA11yKeysBehavior](https://github.com/PolymerElements/iron-a11y-keys-behavior) format.
+
+Following example should clarify the usage of this feature.
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="paper-chip-input.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
-<paper-chip-input-autocomplete></paper-chip-input-autocomplete>
+<paper-chip-input enter-keys='["enter", "space"]'></paper-chip-input>
 ```
 
-You can set the predefined values with `datasource` property.
+Do you need **autocomplete** ?
 
+When you have a predefined and finite set of input values you can set the predefined values with `datasource` property.
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="paper-chip-input.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
 ```html
-<paper-chip-input-autocomplete
-  datasource='{{"value":"apple","key":0},{"value":"apricot","key":1}}'>
-</paper-chip-input-autocomplete>
+<paper-chip-input label="Weekdays" datasource='[{"value": "1", "label": "monday" },{"value": "2", "label": "tuesday"}, {"value": "3", "label": "wednesday"}, {"value": "4", "label": "thursday"}, {"value": "5", "label": "friday"}, {"value": "6", "label": "saturday"}, {"value": "7", "label": "sunday"}]'  placeholder="Add day"></paper-chip-input>
 ```
 
 The default properties for datasource are `label` and `value`, but you can configure it from outside by the properties `display-property` and `value-property`.
 
 ```html
-<paper-chip-input-autocomplete display-property="val" value-property="key">
-</paper-chip-input-autocomplete>
+<paper-chip-input display-property="val" value-property="key">
+</paper-chip-input>
 ```
 
 ```json
-{ "val": "apple", "key": 0 },
-{ "val": "apricot", "key": 1 }
+[
+  { "val": "apple", "key": "0" },
+  { "val": "apricot", "key": "1" }
+]
 ```
+
+Autocomplete uses a **startWith** filter as default logic.
+
+Do you need to implement a **custom filter logic**? You can do it!
+
+Set `filter` property with your custom *function*. The following lines of code will show you how to do it.
+
+<!--
+```
+<custom-element-demo>
+  <template>
+    <script src="../webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="paper-chip-input.html">
+    <next-code-block></next-code-block>
+  </template>
+</custom-element-demo>
+```
+-->
+```html
+<paper-chip-input id="weekdays" label="Weekdays" datasource='[{"value": "1", "label": "monday" },{"value": "2", "label": "tuesday"}, {"value": "3", "label": "wednesday"}, {"value": "4", "label": "thursday"}, {"value": "5", "label": "friday"}, {"value": "6", "label": "saturday"}, {"value": "7", "label": "sunday"}]' placeholder="Add day"></paper-chip-input>
+<script>
+let weekdays = document.querySelector("#weekdays")
+weekdays.filter = (data, value) => {
+    return data.filter((item) => item[weekdays.displayProperty].toLowerCase().includes(value.toLowerCase()))
+}
+</script>
+```
+
 
 ## Styling
 
@@ -159,7 +217,9 @@ Custom property | Description | Default
 
 ## Testing
 
-If you are using **polyserve** navigate to the `test/` directory of your element to run its tests. You can view results in browser console.
+If you are using **polyserve** navigate to the `test/` directory of your element to run its tests.
+
+You can view results in the browser console.
 
 ### WCT
 
@@ -170,6 +230,14 @@ To run them locally execute:
 ```bash
 npm test
 ```
+
+## Contributing
+
+Thanks for your interest in this project!
+
+We are really glad you are reading this. External contributions are very welcome by our team. We know that we need volunteer developers to help this project come (and mantain) to fruition.
+
+There are many ways to contribute to this project. Get started reading the [contributing guide](CONTRIBUTING.md).
 
 ## License
 
