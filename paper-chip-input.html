@@ -152,6 +152,10 @@
 
             static get properties() {
                 return {
+                    allowNewValues: {
+                        type: Boolean,
+                        value: false
+                    },
                     displayProperty: {
                         type: String,
                         value: "label"
@@ -217,6 +221,20 @@
             _add() {
                 if (!this._autocomplete) {
                     this._pushChip()
+                } else if (this.allowNewValues) {
+                    const tagInput = this.shadowRoot.querySelector("#tagInput")
+                    if (this.dispatchEvent(new CustomEvent("paper-chip-input-add", { detail: tagInput.value, cancelable: true }))) {
+                        this._prefilterSource()
+
+                        const value = this._source.find(v => v[this.displayProperty] === tagInput.value)
+                        if (value) {
+                            this.push("values", value)
+                            tagInput.value = ""
+                            this._hideTips()
+
+                            this._prefilterSource()
+                        }
+                    }
                 }
             }
 
@@ -403,6 +421,12 @@
 
             _computeAutocomplete(datasource) {
                 return !!datasource.length
+            }
+
+            clearInput() {
+                const tagInput = this.shadowRoot.querySelector("#tagInput")
+                tagInput.value = ""
+                this._hideTips()
             }
 
         }

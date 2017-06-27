@@ -1,11 +1,11 @@
 {
   "name": "paper-chip",
-  "version": "0.10.0",
+  "version": "0.10.0-add-ac-dev",
   "description": "A chip web component made with Polymer 2 following Material Design guidelines",
   "main": "paper-chip.html",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fabbricadigitale/paper-chip.git"
+    "url": "https://github.com/Qowyn/paper-chip.git"
   },
   "license": "MIT",
   "devDependencies": {
